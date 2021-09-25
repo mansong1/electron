@@ -1,2 +1,2 @@
-# electron
+# Electron
 A Simple Electron project
