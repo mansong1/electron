@@ -9,8 +9,24 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "test": "jest",
+    "test": "jest --coverage --coverageDirectory=jest",
     "lint": "eslint --ignore-path .gitignore src/index.js"
+  },
+  "jest": {
+    "verbose": true,
+    "coverageReporters": [
+      "text",
+      "json",
+      "cobertura"
+    ],
+    "reporters": [
+      "default",
+      "jest-junit"
+    ]
+  },
+  "jest-junit": {
+    "output": "junit.xml",
+    "usePathForSuiteName": "true"
   },
   "keywords": [],
   "author": {
@@ -48,6 +64,7 @@
   "dependencies": {
     "asyncawait": "^3.0.0",
     "electron-squirrel-startup": "^1.0.0",
+    "jest-junit": "^12.3.0",
     "prettier": "^2.4.1"
   },
   "devDependencies": {
