@@ -1,0 +1,14 @@
+{
+    "extends": "strongloop",
+    "rules": {
+        "max-len": [2, 120, 8],
+        "semi": 2
+    },
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    }
+}

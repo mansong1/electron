@@ -1,6 +1,6 @@
-const Application = require("spectron").Application;
-const electronPath = require("electron");
-const path = require("path");
+const Application = require('spectron').Application;
+const electronPath = require('electron');
+const path = require('path');
 
 let app;
 
@@ -8,36 +8,36 @@ beforeAll(() => {
   app = new Application({
     path: electronPath,
 
-    args: [path.join(__dirname, "../../")]
+    args: [path.join(__dirname, '../../')],
   });
 
   return app.start();
 }, 15000);
 
-afterAll(function () {
+afterAll(function() {
   if (app && app.isRunning()) {
     return app.stop();
   }
 });
 
-test("Displays App window", async function () {
+test('Displays App window', async () => {
   let windowCount = await app.client.getWindowCount();
 
   expect(windowCount).toBe(1);
 });
 
-test("Header displays appropriate text", async function () {
-  const headerElement = await app.client.$("h1");
+test('Header displays appropriate text', async () => {
+  const headerElement = await app.client.$('h1');
 
   let headerText = await headerElement.getText();
 
-  expect(headerText).toBe("💖 Hello World!");
+  expect(headerText).toBe('💖 Hello World!');
 });
 
-test("Paragraph displays appropriate text", async function () {
-  const paragraphElement = await app.client.$("p");
+test('Paragraph displays appropriate text', async () => {
+  const paragraphElement = await app.client.$('p');
 
   let paragraphText = await paragraphElement.getText();
 
-  expect(paragraphText).toBe("Welcome to your Electron application.");
+  expect(paragraphText).toBe('Welcome to your Electron application.');
 });
