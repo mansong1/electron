@@ -1,43 +1,63 @@
-const Application = require('spectron').Application;
-const electronPath = require('electron');
-const path = require('path');
+var Application = require('spectron').Application;
+var electronPath = require('electron');
+var path = require('path');
+var assert = require('assert')
 
-let app;
+var app = new Application({
+  path: electronPath,
+  args: [path.join(__dirname, '..')]
+});
 
-beforeAll(() => {
-  app = new Application({
-    path: electronPath,
-
-    args: [path.join(__dirname, '../../')],
+describe("App", () => {
+  beforeEach(async () => {
+    await app.start();
+    jest.setTimeout(30000);
+  });
+  afterEach(async () => {
+    if (app && app.isRunning()) await app.stop();
   });
 
-  return app.start();
-}, 15000);
-
-afterAll(function() {
-  if (app && app.isRunning()) {
-    return app.stop();
-  }
+  test("Displays App Window", async () => {
+    const isVisible = await app.browserWindow.isVisible();
+    expect(isVisible).toBe(true);
+  });
 });
 
-test('Displays App window', async () => {
-  let windowCount = await app.client.getWindowCount();
 
-  expect(windowCount).toBe(1);
-});
+// beforeAll(() => {
+//   app = new Application({
+//     path: electronPath,
 
-test('Header displays appropriate text', async () => {
-  const headerElement = await app.client.$('h1');
+//     args: [path.join(__dirname, '../../')],
+//   });
 
-  let headerText = await headerElement.getText();
+//   return app.start();
+// }, 15000);
 
-  expect(headerText).toBe('💖 Hello World!');
-});
+// afterAll(function() {
+//   if (app && app.isRunning()) {
+//     return app.stop();
+//   }
+// });
 
-test('Paragraph displays appropriate text', async () => {
-  const paragraphElement = await app.client.$('p');
+// test('Displays App window', async () => {
+//   let windowCount = await app.client.getWindowCount();
 
-  let paragraphText = await paragraphElement.getText();
+//   expect(windowCount).toBe(1);
+// });
 
-  expect(paragraphText).toBe('Welcome to your Electron application.');
-});
+// test('Header displays appropriate text', async () => {
+//   const headerElement = await app.client.$('h1');
+
+//   let headerText = await headerElement.getText();
+
+//   expect(headerText).toBe('💖 Hello World!');
+// });
+
+// test('Paragraph displays appropriate text', async () => {
+//   const paragraphElement = await app.client.$('p');
+
+//   let paragraphText = await paragraphElement.getText();
+
+//   expect(paragraphText).toBe('Welcome to your Electron application.');
+// });
